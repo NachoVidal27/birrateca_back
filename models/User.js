@@ -5,6 +5,7 @@ const userSchema = new Schema(
     memberId: {
       type: Number,
       required: [true, "Inserte su número de socio."],
+      // unique: true,
     },
     name: {
       type: String,
@@ -12,11 +13,12 @@ const userSchema = new Schema(
     },
     phone: {
       type: String,
+      // unique: true,
     },
     email: {
       type: String,
       required: [true, "Inserte su email."],
-      unique: true,
+      // unique: true,
     },
     password: {
       type: String,
@@ -32,14 +34,6 @@ userSchema.methods.toJSON = function () {
   delete user.password;
   return user;
 };
-
-// Bcrypt - Password;
-// userSchema.pre("save", async function (next) {
-//   if (this.isModified("password") || this.isNew) {
-//     this.password = await bcrypt.hash(this.password, 8);
-//     next();
-//   }
-// });
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;
