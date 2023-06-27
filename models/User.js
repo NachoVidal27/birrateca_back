@@ -3,7 +3,7 @@ const { mongoose, Schema } = require("../db");
 const userSchema = new Schema(
   {
     memberId: {
-      type: String,
+      type: Number,
       required: [true, "Inserte su número de socio."],
     },
     name: {

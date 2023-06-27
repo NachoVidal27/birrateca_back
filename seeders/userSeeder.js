@@ -24,8 +24,9 @@ module.exports = async () => {
   const users = [];
   for (let i = 0; i <= Number(process.env.TOTAL_USERS); i++) {
     const firstname = faker.name.firstName();
+    const memberId = faker.datatype.number(650);
     const user = new User({
-      memberId: 8,
+      memberId: memberId,
       name: firstname,
       phone: "092738492",
       email: slugify(`${firstname}@gmail.com`, {
