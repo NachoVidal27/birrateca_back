@@ -15,12 +15,28 @@
 
 const { faker } = require("@faker-js/faker");
 const User = require("../models/User");
+const slugify = require("slugify");
+const bcrypt = require("bcryptjs");
 
 faker.locale = "es";
 
 module.exports = async () => {
-  /**
-   * Escribir código del seeder aquí...
-   */
+  const users = [];
+  for (let i = 0; i <= Number(process.env.TOTAL_USERS); i++) {
+    const firstname = faker.name.firstName();
+    const user = new User({
+      memberId: 8,
+      name: firstname,
+      phone: "092738492",
+      email: slugify(`${firstname}@gmail.com`, {
+        replacement: "-",
+        lower: true,
+        locale: "en",
+      }),
+      password: await bcrypt.hash("1234", 8),
+    });
+    users.push(user);
+  }
+  await User.insertMany(users);
   console.log("[Database] Se corrió el seeder de Users.");
 };
