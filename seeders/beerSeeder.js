@@ -6,6 +6,7 @@ faker.locale = "es";
 module.exports = async () => {
   const beers = [];
   for (let i = 0; i <= Number(process.env.TOTAL_USERS); i++) {
+    const beerId = faker.datatype.number(650);
     const memberId = faker.datatype.number(650);
     const style = faker.lorem.words(2);
     const description = faker.lorem.words(50);
@@ -13,6 +14,7 @@ module.exports = async () => {
     const abv = `${faker.datatype.number(12)}%`;
     const photo = faker.lorem.words(2);
     const beer = new Beer({
+      beerId: beerId,
       style: style,
       description: description,
       ingredients: ingredients,

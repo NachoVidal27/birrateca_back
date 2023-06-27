@@ -9,9 +9,9 @@ async function index(req, res) {
 
 // Display the specified resource.
 async function show(req, res) {
-  const memberId = req.params.id;
-  const user = await User.findOne({ memberId: memberId });
-  return res.json(user);
+  const beerId = req.params.id;
+  const beer = await User.findOne({ beerId: beerId });
+  return res.json(beer);
 }
 
 // Show the form for creating a new resource
@@ -31,14 +31,14 @@ async function store(req, res) {
   return res.json(newUser);
 }
 
-// Show the form for editing the specified resource.
+// // Show the form for editing the specified resource.
 async function edit(req, res) {
   const memberId = req.params.id;
   const user = await User.findOne({ memberId: memberId });
   return res.json(user);
 }
 
-// Update the specified resource in storage.
+// // Update the specified resource in storage.
 async function update(req, res) {
   const bodyData = req.body;
   const memberId = req.params.id;
@@ -57,7 +57,7 @@ async function update(req, res) {
   return res.json(user);
 }
 
-// Remove the specified resource from storage.
+// // Remove the specified resource from storage.
 async function destroy(req, res) {
   const memberId = req.params.id;
   const user = await User.findOneAndRemove({ memberId: memberId });

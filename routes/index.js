@@ -4,6 +4,7 @@
  */
 
 const userRoutes = require("./userRoutes");
+const beerRoutes = require("./beerRoutes");
 // const articleRoutes = require("./articleRoutes");
 // const commentRoutes = require("./commentRoutes");
 
@@ -27,7 +28,7 @@ module.exports = (app) => {
    * nombres de variables, funciones, etc, que siempre se recomienda que estén
    * en inglés.
    */
-
+  app.use("/beer", beerRoutes);
   app.use("/user", userRoutes);
   app.use("/", publicRoutes);
 };
