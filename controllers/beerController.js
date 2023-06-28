@@ -1,5 +1,5 @@
 const Beer = require("../models/Beer");
-// const bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 
 // Display a listing of the resource.
 async function index(req, res) {
