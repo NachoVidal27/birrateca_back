@@ -28,7 +28,7 @@ module.exports = (app) => {
    * nombres de variables, funciones, etc, que siempre se recomienda que estén
    * en inglés.
    */
-  app.use("/beer", beerRoutes);
-  app.use("/user", userRoutes);
+  app.use("/beers", beerRoutes);
+  app.use("/users", userRoutes);
   app.use("/", publicRoutes);
 };
