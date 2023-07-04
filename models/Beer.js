@@ -2,10 +2,10 @@ const { mongoose, Schema } = require("../db");
 
 const beerSchema = new Schema(
   {
-    beerId: {
-      type: Number,
-      required: [true, "Inserte un id."],
-    },
+    // beerId: {
+    //   type: Number,
+    //   required: [true, "Inserte un id."],
+    // },
     style: {
       type: String,
       required: [true, "Inserte el estilo BJCP."],
@@ -32,7 +32,6 @@ const beerSchema = new Schema(
     },
     memberId: {
       type: String,
-      required: [true, "Inserte el member id"],
     },
   },
   { timestamps: true },

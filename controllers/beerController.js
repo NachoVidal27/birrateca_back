@@ -1,6 +1,11 @@
 const Beer = require("../models/Beer");
 const bcrypt = require("bcryptjs");
 const formidable = require("formidable");
+const fs = require("fs");
+const path = require("path");
+const { createClient } = require("@supabase/supabase-js");
+
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 // Display a listing of the resource.
 async function index(req, res) {
@@ -27,34 +32,35 @@ async function store(req, res) {
     });
     form.parse(req, async (err, fields, files) => {
       const { beerId, style, description, ingredients, abv, brewDate, memberId } = fields;
-      console.log(fields);
       const ext = path.extname(files.photo.filepath);
-      const newFilename = `img${Date.now()}${ext}`;
+      console.log(files);
+      const newFileName = `img${Date.now()}${ext}`;
       const { data, error } = await supabase.storage
-        .from("img")
-        .upload(files.photo.newFilename, fs.createReadStrem(files.photo.filepath), {
+        .from("birrateca_fotos/birra_fotos")
+        .upload(newFileName, fs.createReadStream(files.photo.filepath), {
           cacheControl: "3600",
           upsert: false,
-          contentType: files.photo.mimetype,
+          contentType: files.photo.type,
           duplex: "half",
         });
+
       const newBeer = await Beer.create({
         beerId: beerId,
         style: style,
         description: description,
         ingredients: ingredients,
         abv: abv,
-        photo: data.path,
+        photo: newFileName,
         brewDate: brewDate,
         memeberId: memberId,
       });
 
       await newBeer.save();
-      return res.status((200).json(newBeer));
+      return res.status(200).json(newBeer);
     });
-  } catch (err) {
-    console.log(err);
-    res.status(500).send("server errro");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("server error");
   }
 }
 
