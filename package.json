@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose src/tests/users.test.js",
     "start": "nodemon server.js",
     "seeders": "node seeders/runAllSeeders.js"
   },
@@ -28,7 +28,8 @@
     "mongoose": "^6.9.2",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
-    "slugify": "^1.6.6"
+    "slugify": "^1.6.6",
+    "supertest": "^6.3.3"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0"

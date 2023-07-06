@@ -1,0 +1,10 @@
+POST http://localhost:8000/users
+Content-Type: application/json
+
+{
+    "memberId": "625",
+    "name": "Seba Insegura",
+    "phone": "0911458585",
+    "email": "seba@segurasa.com",
+    "password": "9658965896588"
+}

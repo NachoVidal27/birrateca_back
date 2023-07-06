@@ -18,22 +18,37 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: [true, "Inserte su email."],
-      // unique: true,
+      unique: true,
     },
     password: {
       type: String,
       required: [true, "Inserte una contraseña"],
     },
+    beers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Beer",
+      },
+    ],
   },
   { timestamps: true },
 );
 
-userSchema.methods.toJSON = function () {
-  const user = this.toObject();
-  user.id = user._id.toString();
-  delete user.password;
-  return user;
-};
+// userSchema.methods.toJSON = function () {
+//   const user = this.toObject();
+//   user.id = user._id.toString();
+//   delete user.password;
+//   delete returnedObjetc.__v;
+// };
+
+userSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id;
+    delete returnedObject._id;
+    delete returnedObject._v;
+    delete returnedObject.password;
+  },
+});
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;

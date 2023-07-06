@@ -15,19 +15,50 @@ async function show(req, res) {
 }
 
 // Show the form for creating a new resource
-async function create(req, res) {}
+
+async function createToken(req, res) {
+  try {
+    const user = await User.findOne({ memberId: req.body.memberId }).populate({
+      path: "beers",
+    });
+    const matchPassword = await bcrypt.compare(req.body.password, user.password);
+
+    if (matchPassword) {
+      const token = jwt.sign({ userId: user._id }, process.env.SESSION_SECRET);
+      res.json({
+        user: {
+          id: user._id,
+          name: user.name,
+          phone: user.phone,
+          email: user.email,
+          token: token,
+        },
+      });
+      res.status(200);
+      console.log("te has loggeado correactamente");
+    } else res.json("No existe este usuario");
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "User login failed",
+      error: err.message,
+    });
+  }
+  console.log(token);
+}
 
 // Store a newly created resource in storage.
 async function store(req, res) {
   const bodyData = req.body;
   console.log(bodyData);
   const newUser = await User.create({
-    memberId: bodyData.memberId,
     name: bodyData.name,
+    memberId: bodyData.memberId,
     phone: bodyData.phone,
     email: bodyData.email,
     password: await bcrypt.hash(bodyData.password, 8),
   });
+  // await newUser.save();
   return res.json(newUser);
 }
 
@@ -70,9 +101,9 @@ async function destroy(req, res) {
 module.exports = {
   index,
   show,
-  create,
   store,
   edit,
   update,
   destroy,
+  createToken,
 };

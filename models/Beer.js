@@ -30,8 +30,9 @@ const beerSchema = new Schema(
       type: String,
       required: [true, "Inserte la fecha de elaboración"],
     },
-    memberId: {
-      type: String,
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
   },
   { timestamps: true },
