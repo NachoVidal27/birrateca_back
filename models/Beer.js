@@ -2,10 +2,6 @@ const { mongoose, Schema } = require("../db");
 
 const beerSchema = new Schema(
   {
-    // beerId: {
-    //   type: Number,
-    //   required: [true, "Inserte un id."],
-    // },
     style: {
       type: String,
       required: [true, "Inserte el estilo BJCP."],
@@ -14,9 +10,9 @@ const beerSchema = new Schema(
       type: String,
       required: [true, "Inserte una descripción."],
     },
-    ingredients: {
+    location: {
       type: String,
-      required: [true, "Inserte los ingredientes."],
+      required: [true, "Inserte la ubicacion."],
     },
     abv: {
       type: String,

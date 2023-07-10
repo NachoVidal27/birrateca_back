@@ -31,7 +31,7 @@ async function store(req, res) {
       keepExtensions: true,
     });
     form.parse(req, async (err, fields, files) => {
-      const { beerId, style, description, ingredients, abv, brewDate, memberId } = fields;
+      const { beerId, style, description, location, abv, brewDate, memberId } = fields;
       const ext = path.extname(files.photo.filepath);
       console.log(files);
       const newFileName = `img${Date.now()}${ext}`;
@@ -48,7 +48,7 @@ async function store(req, res) {
         beerId: beerId,
         style: style,
         description: description,
-        ingredients: ingredients,
+        location: location,
         abv: abv,
         photo: newFileName,
         brewDate: brewDate,
@@ -88,7 +88,7 @@ async function update(req, res) {
       beerId: bodyData.beerId,
       style: bodyData.style,
       description: bodyData.description,
-      ingredients: bodyData.ingredients,
+      location: bodyData.location,
       abv: bodyData.abv,
       photo: bodyData.photo,
       brewDate: bodyData.brewDate,

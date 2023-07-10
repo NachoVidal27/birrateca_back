@@ -5,7 +5,6 @@ const userController = require("../controllers/userController");
 router.get("/", userController.index);
 
 router.get("/:id", userController.show);
-router.get("/", userController.create);
 router.post("/", userController.store);
 router.post("/token", userController.createToken);
 router.get("/editar/:id", userController.edit);

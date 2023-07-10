@@ -10,14 +10,14 @@ module.exports = async () => {
     const memberId = faker.datatype.number(650);
     const style = faker.lorem.words(2);
     const description = faker.lorem.words(20);
-    const ingredients = faker.lorem.words(10);
+    const location = faker.lorem.words(2);
     const abv = `${faker.datatype.number(12)}%`;
     const photo = faker.image.animals();
     const beer = new Beer({
       beerId: beerId,
       style: style,
       description: description,
-      ingredients: ingredients,
+      location: location,
       abv: abv,
       photo: photo,
       brewDate: "10/10/1998",

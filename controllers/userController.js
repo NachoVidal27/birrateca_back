@@ -17,12 +17,13 @@ async function show(req, res) {
 // Show the form for creating a new resource
 
 async function createToken(req, res) {
+  console.log(req.body);
   try {
     const user = await User.findOne({ memberId: req.body.memberId }).populate({
       path: "beers",
     });
+    console.log(user);
     const matchPassword = await bcrypt.compare(req.body.password, user.password);
-
     if (matchPassword) {
       const token = jwt.sign({ userId: user._id }, process.env.SESSION_SECRET);
       res.json({
@@ -44,7 +45,6 @@ async function createToken(req, res) {
       error: err.message,
     });
   }
-  console.log(token);
 }
 
 // Store a newly created resource in storage.
