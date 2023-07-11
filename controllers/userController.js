@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 // Display a listing of the resource.
 async function index(req, res) {
@@ -14,15 +15,13 @@ async function show(req, res) {
   return res.json(beer);
 }
 
-// Show the form for creating a new resource
-
 async function createToken(req, res) {
   console.log(req.body);
   try {
     const user = await User.findOne({ memberId: req.body.memberId }).populate({
       path: "beers",
     });
-    console.log(user);
+    console.log("hola este es el console de user", user);
     const matchPassword = await bcrypt.compare(req.body.password, user.password);
     if (matchPassword) {
       const token = jwt.sign({ userId: user._id }, process.env.SESSION_SECRET);
@@ -35,9 +34,10 @@ async function createToken(req, res) {
           token: token,
         },
       });
-      res.status(200);
-      console.log("te has loggeado correactamente");
-    } else res.json("No existe este usuario");
+      console.log("te has loggeado correctamente");
+    } else {
+      res.status(401).json("No existe este usuario");
+    }
   } catch (err) {
     res.status(500).json({
       success: false,
