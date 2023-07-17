@@ -10,9 +10,9 @@ async function index(req, res) {
 
 // Display the specified resource.
 async function show(req, res) {
-  const beerId = req.params.id;
-  const beer = await User.findOne({ beerId: beerId });
-  return res.json(beer);
+  const userId = req.params.id;
+  const user = await User.findOne({ _id: userId });
+  return res.json(user);
 }
 
 async function createToken(req, res) {
@@ -71,15 +71,15 @@ async function edit(req, res) {
 // // Update the specified resource in storage.
 async function update(req, res) {
   const bodyData = req.body;
-  const memberId = req.params.id;
+  const userId = req.params.id;
   const user = await User.findOneAndUpdate(
-    { memberId: memberId },
+    { _id: userId },
     {
       memberId: bodyData.memberId,
       name: bodyData.name,
       phone: bodyData.phone,
       email: bodyData.email,
-      password: await bcrypt.hash(bodyData.password, 8),
+      // password: await bcrypt.hash(bodyData.password, 8),
     },
     { returnOriginal: false },
   );

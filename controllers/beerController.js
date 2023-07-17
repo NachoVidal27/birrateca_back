@@ -1,4 +1,5 @@
 const Beer = require("../models/Beer");
+const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const formidable = require("formidable");
 const fs = require("fs");
@@ -25,6 +26,7 @@ async function create(req, res) {}
 
 // Store a newly created resource in storage.
 async function store(req, res) {
+  const user = await User.findById(req.auth.id);
   try {
     const form = formidable({
       multiples: false,
@@ -54,7 +56,8 @@ async function store(req, res) {
         brewDate: brewDate,
         memeberId: memberId,
       });
-
+      user.beers.push(newBeer);
+      await user.save();
       await newBeer.save();
       return res.status(200).json(newBeer);
     });
