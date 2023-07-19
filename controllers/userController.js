@@ -31,6 +31,7 @@ async function createToken(req, res) {
           phone: user.phone,
           email: user.email,
           token: token,
+          beers: user.beers,
         },
       });
       console.log("te has loggeado correctamente");

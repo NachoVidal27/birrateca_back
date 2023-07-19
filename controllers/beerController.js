@@ -26,7 +26,9 @@ async function create(req, res) {}
 
 // Store a newly created resource in storage.
 async function store(req, res) {
-  const user = await User.findById(req.auth.id);
+  console.log(req.auth);
+  const user = await User.findOne({ _id: req.auth.userId });
+  console.log(user);
   try {
     const form = formidable({
       multiples: false,
@@ -35,7 +37,6 @@ async function store(req, res) {
     form.parse(req, async (err, fields, files) => {
       const { beerId, style, description, location, abv, brewDate, memberId } = fields;
       const ext = path.extname(files.photo.filepath);
-      console.log(files);
       const newFileName = `img${Date.now()}${ext}`;
       const { data, error } = await supabase.storage
         .from("birrateca_fotos/birra_fotos")
