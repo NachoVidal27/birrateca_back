@@ -17,7 +17,7 @@ async function index(req, res) {
 // Display the specified resource.
 async function show(req, res) {
   const beerId = req.params.id;
-  const beer = await Beer.findOne({ beerId: beerId });
+  const beer = await Beer.findOne({ _id: beerId });
   return res.json(beer);
 }
 
