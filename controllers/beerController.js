@@ -128,7 +128,14 @@ async function update(req, res) {
 // Remove the specified resource from storage.
 async function destroy(req, res) {
   const beerId = req.params.id;
-  const beer = await Beer.findOneAndRemove({ _id: beerId });
+  const beer = await Beer.findOne({ _id: beerId });
+  ///ahora eliminamos del usuario la relacion///
+  console.log("esto es beer ", beer);
+  const user = await User.findOne({ _id: beer.user_id });
+  const userBeers = user.beers;
+  userBeers.splice(userBeers.indexOf(beerId), 1);
+  await user.save();
+  await beer.save();
   return res.json(beer);
 }
 
