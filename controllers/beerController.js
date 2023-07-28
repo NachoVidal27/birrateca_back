@@ -128,7 +128,7 @@ async function update(req, res) {
 // Remove the specified resource from storage.
 async function destroy(req, res) {
   const beerId = req.params.id;
-  const beer = await Beer.findOneAndRemove({ beerId: beerId });
+  const beer = await Beer.findOneAndRemove({ _id: beerId });
   return res.json(beer);
 }
 
