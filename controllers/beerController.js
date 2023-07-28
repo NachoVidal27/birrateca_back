@@ -126,21 +126,42 @@ async function update(req, res) {
 }
 
 // Remove the specified resource from storage.
+// async function destroy(req, res) {
+//   const beerId = req.params.id;
+//   const beer = await Beer.findOneAndRemove({ _id: beerId });
+//   ///ahora eliminamos del usuario la relacion///
+//   console.log("esto es beer ", beer);
+//   const user = await User.findOne({ _id: beer.user_id });
+//   const userBeers = user.beers;
+//   userBeers.splice(userBeers.indexOf(beerId), 1);
+//   await user.save();
+//   return res.json(beer);
+// }
+
 async function destroy(req, res) {
   const beerId = req.params.id;
-  const beer = await Beer.findOneAndRemove({ _id: beerId });
-  ///ahora eliminamos del usuario la relacion///
-  console.log("esto es beer ", beer);
-  const user = await User.findOne({ _id: beer.user_id });
-  const userBeers = user.beers;
-  userBeers.splice(userBeers.indexOf(beerId), 1);
-  await user.save();
-  await beer.save();
-  return res.json(beer);
-}
 
-// Otros handlers...
-// ...
+  try {
+    const beer = await Beer.findOneAndDelete({ _id: beerId });
+    if (!beer) {
+      return res.status(404).json({ error: "Beer not found" });
+    }
+    const user = await User.findOne({ _id: beer.user._id });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const userBeers = user.beers;
+    const beerIndex = userBeers.indexOf(beerId);
+    if (beerIndex !== -1) {
+      userBeers.splice(beerIndex, 1);
+      await user.save();
+    }
+    return res.json(beer);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+}
 
 module.exports = {
   index,
