@@ -28,7 +28,6 @@ async function create(req, res) {}
 async function store(req, res) {
   console.log(req.auth);
   const user = await User.findOne({ _id: req.auth.userId });
-  console.log(user);
   try {
     const form = formidable({
       multiples: false,
@@ -84,26 +83,46 @@ async function edit(req, res) {
 
 // Update the specified resource in storage.
 async function update(req, res) {
-  const bodyData = req.body;
   const beerId = req.params.id;
-  console.log(beerId);
-  const beer = await Beer.findOneAndUpdate(
-    { _id: beerId },
-    {
-      _id: beerId,
-      style: bodyData.style,
-      description: bodyData.description,
-      location: bodyData.location,
-      abv: bodyData.abv,
-      photo: bodyData.photo,
-      brewDate: bodyData.brewDate,
-      memberId: bodyData.memberId,
-    },
-    { returnOriginal: false },
-  );
-  console.log(beer);
+  // const beer = await Beer.findOne({ _id: beerId });
+  try {
+    const form = formidable({
+      multiples: false,
+      keepExtensions: true,
+    });
+    form.parse(req, async (err, fields, files) => {
+      const { _id, style, description, location, abv, brewDate } = fields;
+      const ext = path.extname(files.photo.filepath);
+      const newFileName = `img${Date.now()}${ext}`;
+      const { data, error } = await supabase.storage
+        .from("birrateca_fotos/birra_fotos")
+        .upload(newFileName, fs.createReadStream(files.photo.filepath), {
+          cacheControl: "3600",
+          upsert: false,
+          contentType: files.photo.type,
+          duplex: "half",
+        });
+      const updatedBeer = await Beer.findOneAndUpdate(
+        { _id: beerId },
+        {
+          _id: _id,
+          style: style,
+          description: description,
+          location: location,
+          abv: abv,
+          photo: newFileName,
+          brewDate: brewDate,
+        },
+        { returnOriginal: false },
+      );
+      await updatedBeer.save();
 
-  return res.json(beer);
+      return res.json(updatedBeer);
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("server error");
+  }
 }
 
 // Remove the specified resource from storage.
