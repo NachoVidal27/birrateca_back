@@ -27,7 +27,7 @@ async function create(req, res) {}
 // Store a newly created resource in storage.
 async function store(req, res) {
   console.log(req.auth);
-  const user = await User.findOne({ _id: req.auth.userId });
+  const user = await User.findOne({ _id: req.auth.userId }).populate("beers");
   try {
     const form = formidable({
       multiples: false,
@@ -129,14 +129,7 @@ async function update(req, res) {
 async function destroy(req, res) {
   const beerId = req.params.id;
   const beer = await Beer.findOneAndRemove({ _id: beerId });
-  const updatedUserBeers = User.beers.findOneAndRemove({ _id: beerId });
-  // const userBeers = User.beers;
-  // userBeers.map((item) => {
-  //   if (item._id === beerId) {
-  //     User.beers.findOneAndRemove({ _id: beerId });
-  //   }
-  // });
-  return res.json(updatedUserBeers, beer);
+  return res.json(beer);
 }
 
 // Otros handlers...
