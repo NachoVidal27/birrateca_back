@@ -129,7 +129,14 @@ async function update(req, res) {
 async function destroy(req, res) {
   const beerId = req.params.id;
   const beer = await Beer.findOneAndRemove({ _id: beerId });
-  return res.json(beer);
+  const updatedUserBeers = User.beers.findOneAndRemove({ _id: beerId });
+  // const userBeers = User.beers;
+  // userBeers.map((item) => {
+  //   if (item._id === beerId) {
+  //     User.beers.findOneAndRemove({ _id: beerId });
+  //   }
+  // });
+  return res.json(updatedUserBeers, beer);
 }
 
 // Otros handlers...
