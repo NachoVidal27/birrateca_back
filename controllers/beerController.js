@@ -47,6 +47,7 @@ async function store(req, res) {
         });
 
       const newBeer = await Beer.create({
+        user_id: user._id,
         beerId: beerId,
         style: style,
         description: description,
@@ -54,11 +55,10 @@ async function store(req, res) {
         abv: abv,
         photo: newFileName,
         brewDate: brewDate,
-        memeberId: memberId,
       });
+
       user.beers.push(newBeer);
       await user.save();
-      await newBeer.save();
       return res.status(200).json(newBeer);
     });
   } catch (error) {

@@ -26,7 +26,7 @@ const beerSchema = new Schema(
       type: String,
       required: [true, "Inserte la fecha de elaboración"],
     },
-    user: {
+    user_id: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
