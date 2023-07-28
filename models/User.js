@@ -5,7 +5,7 @@ const userSchema = new Schema(
     memberId: {
       type: String,
       required: [true, "Inserte su número de socio."],
-      // unique: true,
+      unique: true,
     },
     name: {
       type: String,
@@ -13,7 +13,7 @@ const userSchema = new Schema(
     },
     phone: {
       type: String,
-      // unique: true,
+      unique: true,
     },
     email: {
       type: String,

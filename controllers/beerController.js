@@ -78,7 +78,7 @@ async function store(req, res) {
 // Show the form for editing the specified resource.
 async function edit(req, res) {
   const beerId = req.params.id;
-  const beer = await Beer.findOne({ beerId: beerId });
+  const beer = await Beer.findOne({ _id: beerId });
   return res.json(beer);
 }
 
@@ -86,10 +86,11 @@ async function edit(req, res) {
 async function update(req, res) {
   const bodyData = req.body;
   const beerId = req.params.id;
+  console.log(beerId);
   const beer = await Beer.findOneAndUpdate(
-    { beerId: beerId },
+    { _id: beerId },
     {
-      beerId: bodyData.beerId,
+      _id: beerId,
       style: bodyData.style,
       description: bodyData.description,
       location: bodyData.location,
@@ -100,6 +101,7 @@ async function update(req, res) {
     },
     { returnOriginal: false },
   );
+  console.log(beer);
 
   return res.json(beer);
 }
