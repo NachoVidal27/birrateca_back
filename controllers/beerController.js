@@ -146,7 +146,8 @@ async function destroy(req, res) {
     if (!beer) {
       return res.status(404).json({ error: "Beer not found" });
     }
-    const user = await User.findOne({ _id: beer.user._id });
+    const user = await User.findOne({ _id: beer.user_id });
+    console.log(user);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -159,7 +160,7 @@ async function destroy(req, res) {
     return res.json(beer);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json(error);
   }
 }
 
