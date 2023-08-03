@@ -10,7 +10,7 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY
 
 // Display a listing of the resource.
 async function index(req, res) {
-  const beers = await Beer.find();
+  const beers = await Beer.find().populate({ path: "user_id", select: "email" });
   res.json(beers);
 }
 
@@ -55,6 +55,7 @@ async function store(req, res) {
         abv: abv,
         photo: newFileName,
         brewDate: brewDate,
+        email: user.email,
       });
 
       user.beers.push(newBeer);
