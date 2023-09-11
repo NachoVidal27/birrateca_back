@@ -76,7 +76,6 @@ async function update(req, res) {
   const user = await User.findOneAndUpdate(
     { _id: userId },
     {
-      memberId: bodyData.memberId,
       name: bodyData.name,
       phone: bodyData.phone,
       email: bodyData.email,
